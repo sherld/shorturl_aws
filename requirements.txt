@@ -3,3 +3,5 @@ sqlalchemy
 fastapi
 uvicorn
 psycopg2
+async-exit-stack
+async-generator
