@@ -2,6 +2,6 @@ pydantic
 sqlalchemy
 fastapi
 uvicorn
-psycopg2
+psycopg2-binary
 async-exit-stack
 async-generator
