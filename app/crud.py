@@ -7,26 +7,28 @@ from sqlalchemy.orm import Session
 
 from .models import Shorturl
 from .schemas import ShorturlResponse, ShorturlRequest
+from .config import Configuration
 
-DOMAIN = "http://localhost:8000/redirect/"
 HTTP_PREFIX = "http://"
 HTTPS_PREFIX = "https://"
 UTF8 = "utf-8"
 
 
-def construct_url(hashcode: str) -> str:
-    return DOMAIN + hashcode
+def construct_redirect_url(hashcode: str) -> str:
+    return Configuration.get_domain() + 'redirect/' + hashcode
 
 
 def convert_to_response(model: Shorturl) -> ShorturlResponse:
     return ShorturlResponse(id=model.id, url=model.url, createddate=model.createddate,
-                            shorturl=construct_url(model.hashcode))
+                            shorturl=construct_redirect_url(model.hashcode))
+
 
 def get_url(db: Session, hashcode: str) -> str:
     shorturl = db.query(Shorturl).filter_by(hashcode=hashcode).first()
     if shorturl is None:
         raise HTTPException(status_code=404, detail="Unable to find URL to redirct")
     return shorturl.url
+
 
 def read_shorturls(db: Session) -> List[ShorturlResponse]:
     shorturls: list = db.query(Shorturl).all()

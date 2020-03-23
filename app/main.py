@@ -1,3 +1,4 @@
+import os
 from typing import List
 
 import uvicorn
@@ -32,7 +33,7 @@ def get_db():
 
 @app.get("/")
 def root():
-    return 'success'
+    return list(os.environ.items())
 
 @app.get("/redirect/{hashcode}")
 def redirct(hashcode: str, db: Session = Depends(get_db)):
