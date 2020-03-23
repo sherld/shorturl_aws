@@ -30,9 +30,6 @@ def get_db():
     finally:
         db.close()
 
-# @app.get("/")
-# def root():
-#     return list(os.environ.items())
 
 @app.get("/redirect/{hashcode}")
 def redirct(hashcode: str, db: Session = Depends(get_db)):
